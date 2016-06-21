@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    style="@style/MainLayoutStyles"
+    tools:context=".fragments.StartNewGameActivity">
+
+    <Button
+        android:id="@+id/btnEasy"
+        android:text="Easy"
+        android:tag="@string/easy_metadata"
+        android:layout_marginTop="130dp"
+        style="@style/btnStyles"/>
+
+    <Button
+        android:id="@+id/btnMedium"
+        android:text="Medium"
+        android:tag="@string/medium_metadata"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/btnEasy"
+        style="@style/btnStyles"/>
+
+    <Button
+        android:id="@+id/btnHard"
+        android:text="Hard"
+        android:tag="@string/hard_metadata"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/btnMedium"
+        style="@style/btnStyles"/>
+
+</RelativeLayout>
