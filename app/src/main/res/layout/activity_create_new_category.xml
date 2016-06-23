@@ -17,6 +17,7 @@
         android:layout_margin="20dp"/>
 
     <LinearLayout
+        android:id="@+id/layerCategory"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -34,4 +35,12 @@
             android:layout_height="wrap_content"
             android:maxLength="20"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCreateCategory"
+        style="@style/btnStyles"
+        android:onClick="createNewCategory"
+        android:layout_below="@id/layerCategory"
+        android:layout_marginTop="20dp"
+        android:text="Create"/>
 </RelativeLayout>

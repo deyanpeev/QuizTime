@@ -7,21 +7,12 @@ import android.view.View;
 
 import com.example.deyanpeev.quiztime.R;
 
-public class CreateQuestionCategory extends AppCompatActivity {
+public class CreateNewInterestingFact extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_question_category);
-    }
-
-    public void goToCreateNewQuestion(View view) {
-
-    }
-
-    public void goToCreateNewCategory(View view) {
-        Intent goToStartNewCategoryActivity = new Intent(this, CreateNewCategory.class);
-        startActivity(goToStartNewCategoryActivity );
+        setContentView(R.layout.activity_create_new_interesting_fact);
     }
 
     public void goToCreateNewInterestingFact(View view) {

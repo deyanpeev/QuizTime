@@ -23,9 +23,13 @@
             android:parentActivityName=".fragments.InitialPage" />
         <activity
             android:name=".fragments.CreateQuestionCategory"
-            android:parentActivityName=".fragments.InitialPage"></activity>
-        <activity android:name=".fragments.CreateNewCategory"
-            android:parentActivityName=".fragments.CreateQuestionCategory"></activity>
+            android:parentActivityName=".fragments.InitialPage" />
+        <activity
+            android:name=".fragments.CreateNewCategory"
+            android:parentActivityName=".fragments.CreateQuestionCategory" />
+        <activity android:name=".fragments.CreateNewInterestingFact"
+            android:parentActivityName=".fragments.CreateQuestionCategory" />
+
     </application>
 
 </manifest>
