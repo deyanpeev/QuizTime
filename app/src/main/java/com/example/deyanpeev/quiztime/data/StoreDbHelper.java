@@ -2,6 +2,7 @@ package com.example.deyanpeev.quiztime.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,6 +10,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.deyanpeev.quiztime.models.InterestingFact;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StoreDbHelper extends SQLiteOpenHelper {
 
@@ -37,6 +41,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY (" + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY + ") REFERENCES " + ProductContract.CategoryEntity.TABLE_NAME + "(" + ProductContract.CategoryEntity._ID + ")," +
                     "FOREIGN KEY (" + ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY + ") REFERENCES " + ProductContract.InterestingFactEntity.TABLE_NAME + "(" + ProductContract.InterestingFactEntity._ID + ")" +
                     ");";
+
+    private final String SQL_SELECT_ALL_CATEGORIES = "SELECT * FROM " + ProductContract.CategoryEntity.TABLE_NAME;
 
     public StoreDbHelper(Context context) {
         super(context, DATABASE_NAME, null , DATABASE_VERSION);
@@ -68,6 +74,21 @@ public class StoreDbHelper extends SQLiteOpenHelper {
 
         db.insert(ProductContract.CategoryEntity.TABLE_NAME, null, values);
         db.close();
+    }
+
+    public List<String> getAllCategories(){
+        List<String> result = new ArrayList<String>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_CATEGORIES, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                result.add(cursor.getString(1));
+            }while(cursor.moveToNext());
+        }
+
+        return result;
     }
 
     public void insertNewInterestingFact(InterestingFact interestingFact){
