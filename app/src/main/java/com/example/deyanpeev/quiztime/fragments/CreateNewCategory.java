@@ -9,6 +9,8 @@ import android.widget.Toast;
 import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.data.StoreDbHelper;
 
+import java.util.List;
+
 public class CreateNewCategory extends AppCompatActivity {
 
     @Override
@@ -23,5 +25,10 @@ public class CreateNewCategory extends AppCompatActivity {
 
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());
         dbHelper.insertNewCategory(newCategoryName);
+    }
+
+    public void testGetAll(View view) {
+        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
+        List<String> test = dbHelper.getAllCategories();
     }
 }
