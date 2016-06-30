@@ -22,14 +22,17 @@
             android:name=".fragments.StartNewGameActivity"
             android:parentActivityName=".fragments.InitialPage" />
         <activity
-            android:name=".fragments.CreateQuestionCategory"
+            android:name=".fragments.CreateNew"
             android:parentActivityName=".fragments.InitialPage" />
         <activity
             android:name=".fragments.CreateNewCategory"
-            android:parentActivityName=".fragments.CreateQuestionCategory" />
-        <activity android:name=".fragments.CreateNewInterestingFact"
-            android:parentActivityName=".fragments.CreateQuestionCategory" />
-
+            android:parentActivityName=".fragments.CreateNew" />
+        <activity
+            android:name=".fragments.CreateNewInterestingFact"
+            android:parentActivityName=".fragments.CreateNew" />
+        <activity
+            android:name=".fragments.CreateNewQuestion"
+            android:parentActivityName=".fragments.CreateNew" />
     </application>
 
 </manifest>

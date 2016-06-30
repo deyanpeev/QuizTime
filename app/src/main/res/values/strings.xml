@@ -4,4 +4,6 @@
     <string name="easy_metadata">easy</string>
     <string name="medium_metadata">medium</string>
     <string name="hard_metadata">hard</string>
+    <string name="empty_spinner_element">--None--</string>
+    <string name="create_new">Create</string>
 </resources>

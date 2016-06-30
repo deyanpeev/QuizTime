@@ -24,7 +24,13 @@ public class CreateNewCategory extends AppCompatActivity {
         String newCategoryName = et.getText().toString();
 
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());
-        dbHelper.insertNewCategory(newCategoryName);
+
+        if(!dbHelper.doesCategoryExist(newCategoryName)){
+            dbHelper.insertNewCategory(newCategoryName);
+            Toast.makeText(getApplicationContext(), "The category was successfully created.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "The category already exists.", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void testGetAll(View view) {

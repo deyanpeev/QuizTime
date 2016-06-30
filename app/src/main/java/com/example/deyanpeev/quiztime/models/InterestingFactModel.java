@@ -1,14 +1,14 @@
 package com.example.deyanpeev.quiztime.models;
 
-public class InterestingFact {
+public class InterestingFactModel {
     private String shortTag;
     private String description;
 
-    public InterestingFact(){
+    public InterestingFactModel(){
 
     }
 
-    public InterestingFact(String shortTag, String description){
+    public InterestingFactModel(String shortTag, String description){
         this.setShortTag(shortTag);
         this.setDescription(description);
     }

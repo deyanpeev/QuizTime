@@ -13,7 +13,7 @@ public class ProductContract {
         public static final String TABLE_NAME = "Questions";
         public static final String COLUMN_CATEGORY_KEY = "Category_ID";
         public static final String COLUMN_INTERESTING_FACT_KEY = "InterestingFact_ID";
-
+        public static final String COLUMN_ANSWER_KEY = "Answer_ID";
         public static final String COLUMN_CONTENT = "Content";
     }
 
@@ -22,5 +22,12 @@ public class ProductContract {
 
         public static final String COLUMN_SHORT_TAG = "Tag";
         public static final String COLUMN_TEXT = "Text";
+    }
+
+    public static final class Answer implements BaseColumns {
+        public static final String TABLE_NAME = "Answers";
+        public static final String COLUMN_CATEGORY_KEY = "Category_ID";
+
+        public static final String COLUMN_CONTENT = "Content";
     }
 }

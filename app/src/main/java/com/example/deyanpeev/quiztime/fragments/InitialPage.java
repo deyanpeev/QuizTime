@@ -57,7 +57,7 @@ public class InitialPage extends AppCompatActivity {
     }
 
     public void goToCreateNewQuestionOrCategory(View view){
-        Intent goToCreateNewQuestionOrCategory = new Intent(this, CreateQuestionCategory.class);
+        Intent goToCreateNewQuestionOrCategory = new Intent(this, CreateNew.class);
         startActivity(goToCreateNewQuestionOrCategory );
     }
 }

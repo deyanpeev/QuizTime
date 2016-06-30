@@ -23,7 +23,7 @@
         android:id="@+id/layoutShortTag"
         android:layout_marginTop="20dip">
         <TextView
-            android:id="@+id/tvShortTag"
+            android:id="@+id/tvQuestionText"
             style="@style/textViewStyle"
             android:text="Short tag:"/>
 
@@ -54,7 +54,14 @@
 
     <Button
         style="@style/btnStyles"
-        android:text="Insert"
-        android:onClick="createNewCategory"/>
+        android:layout_below="@+id/teDescription"
+        android:text="@string/create_new"
+        android:onClick="createNewInteresingFact"/>
+
+
+    <Button
+        style="@style/btnStyles"
+        android:text="Test"
+        android:onClick="testMe"/>
 
 </RelativeLayout>
