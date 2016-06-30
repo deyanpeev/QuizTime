@@ -1,5 +1,7 @@
 package com.example.deyanpeev.quiztime.fragments;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,10 +43,10 @@ public class CreateNewQuestion extends AppCompatActivity {
         Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
         String categoryName = spinnerCategory.getSelectedItem().toString();
 
+        //TODO fix the spinner so that it can work with no values passed
         Spinner spinnerInterestingFact = (Spinner) findViewById(R.id.spinnerInterestingFact);
         String interestingFactName = spinnerInterestingFact.getSelectedItem().toString();
 
-        //TODO modify
         QuestionModel question = new QuestionModel(questionContent, categoryName, answer, interestingFactName, getApplicationContext());
 
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());

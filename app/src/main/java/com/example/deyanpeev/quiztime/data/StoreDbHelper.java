@@ -68,8 +68,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_CATEGORY_TABLE);
         db.execSQL(SQL_CREATE_INTERESTING_FACT_TABLE);
-        db.execSQL(SQL_CREATE_QUESTION_TABLE);
         db.execSQL(SQL_CREATE_ANSWER_TABLE);
+        db.execSQL(SQL_CREATE_QUESTION_TABLE);
     }
 
     @Override
@@ -107,9 +107,10 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ProductContract.QuestionEntity.COLUMN_CONTENT, question.getQuestionContent());
         values.put(ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY, question.getCategoryId());
+        values.put(ProductContract.QuestionEntity.COLUMN_ANSWER_KEY, question.getAnserId());
         values.put(ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY, question.getInterestingFactId());
 
-        dbWrite.insert(ProductContract.QuestionEntity.TABLE_NAME, null, values);
+        long result = dbWrite.insert(ProductContract.QuestionEntity.TABLE_NAME, null, values);
         dbWrite.close();
     }
 
@@ -159,8 +160,10 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public Boolean doesCategoryExist(String categoryName){
-        return this.getEntityId(ProductContract.CategoryEntity.TABLE_NAME,
-                ProductContract.CategoryEntity.COLUMN_TITLE, categoryName) >= 0;
+        long value = this.getEntityId(ProductContract.CategoryEntity.TABLE_NAME,
+                ProductContract.CategoryEntity.COLUMN_TITLE, categoryName);
+
+        return value >= 0;
     }
 
     public Boolean doesInterestingFactExist(InterestingFactModel interestingFact){
@@ -183,8 +186,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Long getInterestingFactId(String interestingFactName){
-        Long id = this.getEntityId(ProductContract.InterestingFactEntity.TABLE_NAME,
+    public long getInterestingFactId(String interestingFactName){
+        long id = this.getEntityId(ProductContract.InterestingFactEntity.TABLE_NAME,
                 ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, interestingFactName);
 
         if(id >= 0){
@@ -194,7 +197,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Long getOrCreateAnswerId(String answer, Long categoryId){
+    public Long getOrCreateAnswerId(String answer, long categoryId){
         long answerId = getEntityId(ProductContract.Answer.TABLE_NAME,
                 ProductContract.Answer.COLUMN_CONTENT, answer);
 
@@ -206,13 +209,13 @@ public class StoreDbHelper extends SQLiteOpenHelper {
             values.put(ProductContract.Answer.COLUMN_CONTENT, answer);
             values.put(ProductContract.Answer.COLUMN_CATEGORY_KEY, categoryId);
 
-            answerId = db.insert(ProductContract.InterestingFactEntity.TABLE_NAME, null, values);
+            answerId = db.insert(ProductContract.Answer.TABLE_NAME, null, values);
         }
 
         return answerId;
     }
 
-    private Long getEntityId(String tableName, String columnName, String entityName){
+    private long getEntityId(String tableName, String columnName, String entityName){
         final String SQL_GET_ENTITY = "SELECT " + BaseColumns._ID + " FROM " + tableName + " WHERE "
                 + columnName
                 + " = '" + entityName + "' LIMIT 1";
@@ -223,7 +226,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
             return cursor.getLong(0);
         }
 
-        return null;
+        return -1;
     }
 
     private void deleteTables(SQLiteDatabase db){
