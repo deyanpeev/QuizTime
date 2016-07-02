@@ -25,8 +25,7 @@ public class CreateNewCategory extends AppCompatActivity {
 
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());
 
-        if(!dbHelper.doesCategoryExist(newCategoryName)){
-            dbHelper.insertNewCategory(newCategoryName);
+        if(dbHelper.insertNewCategory(newCategoryName)){
             Toast.makeText(getApplicationContext(), "The category was successfully created.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getApplicationContext(), "The category already exists.", Toast.LENGTH_LONG).show();

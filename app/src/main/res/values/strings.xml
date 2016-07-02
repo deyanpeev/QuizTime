@@ -6,4 +6,16 @@
     <string name="hard_metadata">hard</string>
     <string name="empty_spinner_element">--None--</string>
     <string name="create_new">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="password">password</string>
+    <string name="xml_category_tag">category</string>
+    <string name="settings">settings</string>
+    <string name="seeded_categories">areCategoriesSeeded</string>
+    <string name="seeded_answers">areAnswersSeeded</string>
+    <string name="seeded_interesing_facts">areInterestingFactsSeeded</string>
+    <string name="seeded_questions">areInterestingFactsSeeded</string>
+    <string name="database_cleared">isDatabaseCleared</string>
+    <string name="xml_category_name_tag">categoryName</string>
+    <string name="xml_answer_tag">answer</string>
 </resources>

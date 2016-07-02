@@ -40,19 +40,34 @@ public class CreateNewQuestion extends AppCompatActivity {
         EditText etAnswer = (EditText) findViewById(R.id.teAnswer);
         String answer = etAnswer.getText().toString();
 
+        //Validating the input
+        if(questionContent == null || questionContent.isEmpty()){
+            Toast.makeText(getApplicationContext(), "The question cannot be empty.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(answer == null || answer.isEmpty()){
+            Toast.makeText(getApplicationContext(), "The answer cannot be empty.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Spinner spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
         String categoryName = spinnerCategory.getSelectedItem().toString();
 
-        //TODO fix the spinner so that it can work with no values passed
         Spinner spinnerInterestingFact = (Spinner) findViewById(R.id.spinnerInterestingFact);
         String interestingFactName = spinnerInterestingFact.getSelectedItem().toString();
+        if(interestingFactName.equals(getResources().getString(R.string.empty_spinner_element))){
+            interestingFactName = null;
+        }
 
         QuestionModel question = new QuestionModel(questionContent, categoryName, answer, interestingFactName, getApplicationContext());
 
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());
 
-        dbHelper.insertNewQuestion(question);
-        Toast.makeText(getApplicationContext(), "The category was successfully created.", Toast.LENGTH_LONG).show();
+        if(dbHelper.insertNewQuestion(question)) {
+            Toast.makeText(getApplicationContext(), "The category was successfully created.", Toast.LENGTH_LONG).show();
+        } else{
+            Toast.makeText(getApplicationContext(), "Fail to create a category.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void LoadCategoriesSpinner(){

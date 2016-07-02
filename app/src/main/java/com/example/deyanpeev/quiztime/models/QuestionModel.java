@@ -12,7 +12,7 @@ public class QuestionModel {
     private String questionName;
     private long categoryId;
     private long answerId;
-    private long interestingFactId;
+    private Long interestingFactId;
 
     private String categoryName;
     private String answer;
@@ -42,7 +42,7 @@ public class QuestionModel {
         return categoryId;
     }
 
-    public long getInterestingFactId() {
+    public Long getInterestingFactId() {
         return interestingFactId;
     }
 

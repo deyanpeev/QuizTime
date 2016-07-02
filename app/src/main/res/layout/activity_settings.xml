@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.deyanpeev.quiztime.fragments.SettingsActivity"
+    style="@style/MainLayoutStyles" >
+
+
+    <Button
+        android:id="@+id/btnCleanDatabase"
+        style="@style/btnStyles"
+        android:text="Clean database"
+        android:layout_below="@id/lblText"
+        android:layout_marginTop="40dip"
+        android:onClick="cleanDatabase"/>
+
+    <Button
+        android:id="@+id/btnSeedCategories"
+        android:text="Seed categories"
+        android:layout_below="@id/btnCleanDatabase"
+        android:layout_marginTop="30dip"
+        style="@style/btnStyles"
+        android:onClick="seedCategories"/>
+
+    <Button
+        android:id="@+id/btnSeedInterestingFacts"
+        android:text="Seed interesting facts"
+        android:layout_below="@id/btnSeedCategories"
+        android:layout_marginTop="30dip"
+        style="@style/btnStyles"
+        android:onClick="seedInterestingFacts"/>
+
+    <Button
+        android:id="@+id/btnSeedAnswers"
+        android:text="Seed answers"
+        android:layout_below="@id/btnSeedInterestingFacts"
+        android:layout_marginTop="30dip"
+        style="@style/btnStyles"
+        android:onClick="seedAnswers"/>
+
+    <Button
+        android:id="@+id/btnSeedQuestions"
+        android:text="Seed quesitons"
+        android:layout_below="@id/btnSeedAnswers"
+        android:layout_marginTop="30dip"
+        style="@style/btnStyles"
+        android:onClick="seedQuestions"/>
+
+</RelativeLayout>

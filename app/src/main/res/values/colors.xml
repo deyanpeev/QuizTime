@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorButtons">#006699</color>
+    <color name="colorButtonsDisbled">#002b40</color>
     <color name="colorBackground">#dee0e6</color>
     <color name="colorTextViews">#0b0250</color>
 </resources>

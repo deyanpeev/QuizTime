@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    style="@style/MainLayoutStyles"
     tools:context="com.example.deyanpeev.quiztime.fragments.CreateNewInterestingFact">
 
     <TextView
@@ -14,43 +15,29 @@
         android:text="Create new interesting fact:"
         style="@style/headerStyle"
         android:layout_margin="20dp"/>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/lblCreateNewFact"
-        android:id="@+id/layoutShortTag"
-        android:layout_marginTop="20dip">
         <TextView
             android:id="@+id/tvQuestionText"
             style="@style/textViewStyle"
             android:text="Short tag:"/>
 
-        <EditText
-            android:layout_marginRight="10dip"
-            android:id="@+id/teShortTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLength="16"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/lblDescription"
-        style="@style/textViewStyle"
-        android:text="Description:"
-        android:layout_below="@id/layoutShortTag"
-        android:layout_marginTop="20dp"/>
+    <EditText
+        android:layout_marginRight="10dip"
+        android:id="@+id/teShortTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Shoty tag"
+        android:maxLength="16"/>
 
     <EditText
-        android:layout_below="@id/lblDescription"
+        android:layout_below="@id/teShortTag"
         android:id="@+id/teDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:lines="4"
         android:maxLines="6"
-        android:maxLength="255" />
+        android:maxLength="255"
+        android:hint="Description"/>
 
     <Button
         style="@style/btnStyles"

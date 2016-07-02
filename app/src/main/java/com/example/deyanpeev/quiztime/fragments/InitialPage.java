@@ -1,6 +1,9 @@
 package com.example.deyanpeev.quiztime.fragments;
 
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,8 @@ public class InitialPage extends AppCompatActivity {
         setContentView(R.layout.activity_initial_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        XmlResourceParser xrp = getBaseContext().getResources().getXml(R.xml.categories);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -59,5 +64,11 @@ public class InitialPage extends AppCompatActivity {
     public void goToCreateNewQuestionOrCategory(View view){
         Intent goToCreateNewQuestionOrCategory = new Intent(this, CreateNew.class);
         startActivity(goToCreateNewQuestionOrCategory );
+    }
+
+    public void goToSettings(MenuItem item) {
+        DialogFragment newFragment = new SettingsDialog();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        newFragment.show(ft, "Password confirmation");
     }
 }

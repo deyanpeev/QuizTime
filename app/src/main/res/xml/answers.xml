@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+    <category>
+        <categoryName>Animals</categoryName>
+        <answers>
+            <answer>Dog</answer>
+            <answer>Cat</answer>
+            <answer>Blue whale</answer>
+            <answer>Tiger</answer>
+            <answer>Ant</answer>
+            <answer>Spider</answer>
+            <answer>Frog</answer>
+            <answer>Monkey</answer>
+            <answer>Giraffe</answer>
+            <answer>Rhino</answer>
+            <answer>Bee</answer>
+        </answers>
+    </category>
+    <category>
+        <categoryName>Capitals</categoryName>
+        <answers>
+            <answer>Beijing</answer>
+            <answer>Sofia</answer>
+            <answer>Athens</answer>
+            <answer>Berlin</answer>
+            <answer>Paris</answer>
+            <answer>Tokyo</answer>
+            <answer>Moscow</answer>
+            <answer>Lima</answer>
+            <answer>London</answer>
+        </answers>
+    </category>
+    <category>
+        <categoryName>Famous people</categoryName>
+        <answers>
+            <answer>George Washington</answer>
+            <answer>Thomas Jefferson</answer>
+            <answer>Barack Obama</answer>
+            <answer>Mark Zuckerberg</answer>
+            <answer>Bill Gates</answer>
+            <answer>Angela Merkel</answer>
+            <answer>Vladimir Putin</answer>
+            <answer>David Cameron</answer>
+            <answer>Jeff Bezos</answer>
+        </answers>
+    </category>
+</items>

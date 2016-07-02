@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import com.example.deyanpeev.quiztime.models.AnswerModel;
 import com.example.deyanpeev.quiztime.models.InterestingFactModel;
 import com.example.deyanpeev.quiztime.models.QuestionModel;
 
@@ -79,14 +80,29 @@ public class StoreDbHelper extends SQLiteOpenHelper {
 //        this.onCreate(db);
     }
 
-    public void insertNewCategory(String categoryName) {
+    public boolean insertNewCategory(String categoryName) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        if(this.doesCategoryExist(categoryName)){
+            return false;
+        }
 
         ContentValues values = new ContentValues();
         values.put(ProductContract.CategoryEntity.COLUMN_TITLE, categoryName);
 
         db.insert(ProductContract.CategoryEntity.TABLE_NAME, null, values);
         db.close();
+        return true;
+    }
+
+    public Long insertNewAnswer(AnswerModel answer) throws SQLException{
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ProductContract.Answer.COLUMN_CONTENT, answer.getContent());
+        values.put(ProductContract.Answer.COLUMN_CATEGORY_KEY, answer.getCategoryId());
+
+        return db.insert(ProductContract.Answer.TABLE_NAME, null, values);
     }
 
     public void insertNewInterestingFact(InterestingFactModel interestingFact){
@@ -100,7 +116,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void insertNewQuestion(QuestionModel question){
+    public boolean insertNewQuestion(QuestionModel question){
 
         SQLiteDatabase dbWrite = this.getWritableDatabase();
 
@@ -108,10 +124,14 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         values.put(ProductContract.QuestionEntity.COLUMN_CONTENT, question.getQuestionContent());
         values.put(ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY, question.getCategoryId());
         values.put(ProductContract.QuestionEntity.COLUMN_ANSWER_KEY, question.getAnserId());
-        values.put(ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY, question.getInterestingFactId());
+        if(question.getInterestingFactId() != null) {
+            values.put(ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY, question.getInterestingFactId());
+        }
 
         long result = dbWrite.insert(ProductContract.QuestionEntity.TABLE_NAME, null, values);
         dbWrite.close();
+
+        return result > -1;
     }
 
     public List<QuestionModel> getAllQuestions(Context context){
@@ -159,13 +179,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public Boolean doesCategoryExist(String categoryName){
-        long value = this.getEntityId(ProductContract.CategoryEntity.TABLE_NAME,
-                ProductContract.CategoryEntity.COLUMN_TITLE, categoryName);
-
-        return value >= 0;
-    }
-
     public Boolean doesInterestingFactExist(InterestingFactModel interestingFact){
         return this.getEntityId(ProductContract.InterestingFactEntity.TABLE_NAME,
                 ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, interestingFact.getShortTag()) >= 0;
@@ -203,16 +216,25 @@ public class StoreDbHelper extends SQLiteOpenHelper {
 
         //doesn't exist - creating
         if(answerId < 0){
-            SQLiteDatabase db = this.getWritableDatabase();
-
-            ContentValues values = new ContentValues();
-            values.put(ProductContract.Answer.COLUMN_CONTENT, answer);
-            values.put(ProductContract.Answer.COLUMN_CATEGORY_KEY, categoryId);
-
-            answerId = db.insert(ProductContract.Answer.TABLE_NAME, null, values);
+            answerId = this.insertNewAnswer(new AnswerModel(answer, categoryId));
         }
 
         return answerId;
+    }
+
+    public void clearAllTables(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(ProductContract.QuestionEntity.TABLE_NAME, null, null);
+        db.delete(ProductContract.InterestingFactEntity.TABLE_NAME, null, null);
+        db.delete(ProductContract.Answer.TABLE_NAME, null, null);
+        db.delete(ProductContract.CategoryEntity.TABLE_NAME, null, null);
+    }
+
+    private Boolean doesCategoryExist(String categoryName){
+        long value = this.getEntityId(ProductContract.CategoryEntity.TABLE_NAME,
+                ProductContract.CategoryEntity.COLUMN_TITLE, categoryName);
+
+        return value >= 0;
     }
 
     private long getEntityId(String tableName, String columnName, String entityName){
@@ -227,9 +249,5 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         }
 
         return -1;
-    }
-
-    private void deleteTables(SQLiteDatabase db){
-        db.execSQL("DROP TABLE " + ProductContract.InterestingFactEntity.TABLE_NAME);
     }
 }

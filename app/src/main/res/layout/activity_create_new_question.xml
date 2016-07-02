@@ -11,6 +11,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    style="@style/MainLayoutStyles"
     tools:context="com.example.deyanpeev.quiztime.fragments.CreateNewQuestion">
 
     <TextView
@@ -36,46 +37,35 @@
             android:layout_marginRight="5dip"
             android:layout_marginLeft="48dip"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvQuestionText"
-        style="@style/textViewStyle"
-        android:layout_below="@+id/layoutCategory"
-        android:text="Question"
-        android:layout_marginTop="20dp"
         />
 
     <EditText
         android:layout_marginRight="10dip"
         android:id="@+id/teQuestionText"
-        android:layout_below="@id/tvQuestionText"
+        android:layout_below="@id/layoutCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:lines="4"
         android:maxLines="6"
-        android:maxLength="255"/>
-
-    <TextView
-        android:id="@+id/tvAnswer"
-        style="@style/textViewStyle"
-        android:layout_below="@+id/teQuestionText"
-        android:text="Answer"
-        android:layout_marginTop="20dp"
+        android:maxLength="255"
+        android:hint="Question"/>
         />
 
     <EditText
         android:layout_marginRight="10dip"
         android:id="@+id/teAnswer"
-        android:layout_below="@id/tvAnswer"
+        android:layout_below="@id/teQuestionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:lines="4"
         android:maxLines="4"
-        android:maxLength="150"/>
+        android:maxLength="150"
+        android:hint="Answer"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -83,7 +73,7 @@
         android:orientation="horizontal"
         android:layout_below="@+id/teAnswer"
         android:id="@+id/layoutInterestingFact"
-        android:layout_marginTop="20dip">
+        android:layout_marginTop="50dip">
         <TextView
             android:id="@+id/lblInterestingFact"
             style="@style/textViewStyle"
