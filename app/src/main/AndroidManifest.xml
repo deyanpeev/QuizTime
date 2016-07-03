@@ -19,9 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".fragments.StartNewGameActivity"
-            android:parentActivityName=".fragments.InitialPage" />
-        <activity
             android:name=".fragments.CreateNew"
             android:parentActivityName=".fragments.InitialPage" />
         <activity
@@ -33,8 +30,15 @@
         <activity
             android:name=".fragments.CreateNewQuestion"
             android:parentActivityName=".fragments.CreateNew" />
-        <activity android:name=".fragments.SettingsActivity"
-            android:parentActivityName=".fragments.InitialPage"/>
+        <activity
+            android:name=".fragments.SettingsActivity"
+            android:parentActivityName=".fragments.InitialPage" />
+        <activity
+            android:name=".fragments.ChooseGame"
+            android:parentActivityName=".fragments.InitialPage" />
+        <activity
+            android:name=".fragments.GamePlay"
+            android:parentActivityName=".fragments.ChooseGame" />
     </application>
 
 </manifest>

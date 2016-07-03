@@ -16,26 +16,27 @@
         style="@style/headerStyle"
         android:layout_margin="20dp"/>
 
-    <Button
-        android:id="@+id/btnCreateQuestion"
-        style="@style/btnStyles"
-        android:text="Question"
-        android:layout_below="@id/lblText"
-        android:layout_marginTop="80dip"
-        android:onClick="goToCreateNewQuestion"/>
 
     <Button
         android:id="@+id/btnCreateNewCategory"
         android:text="Category"
-        android:layout_below="@id/btnCreateQuestion"
-        android:layout_marginTop="30dip"
+        android:layout_below="@id/lblText"
+        android:layout_marginTop="80dip"
         style="@style/btnStyles"
         android:onClick="goToCreateNewCategory"/>
 
     <Button
+        android:id="@+id/btnCreateQuestion"
+        style="@style/btnStyles"
+        android:text="Question"
+        android:layout_below="@id/btnCreateNewCategory"
+        android:layout_marginTop="30dip"
+        android:onClick="goToCreateNewQuestion"/>
+
+    <Button
         android:id="@+id/btnCreateNewInterestingFact"
         android:text="Interesting fact"
-        android:layout_below="@id/btnCreateNewCategory"
+        android:layout_below="@id/btnCreateQuestion"
         android:layout_marginTop="30dip"
         style="@style/btnStyles"
         android:onClick="goToCreateNewInterestingFact"/>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.data.StoreDbHelper;
+import com.example.deyanpeev.quiztime.helpers.Constants;
 import com.example.deyanpeev.quiztime.helpers.Seeder;
 import com.example.deyanpeev.quiztime.models.AnswerModel;
 import com.example.deyanpeev.quiztime.models.QuestionModel;
@@ -37,7 +38,7 @@ public class CreateNewQuestion extends AppCompatActivity {
         this.LoadCategoriesSpinner();
         this.LoadInterestingFactSpinner();
 
-        this.setTestMode(Seeder.IS_IN_TEST_MODE);
+        this.setTestMode(Constants.IS_IN_TEST_MODE);
     }
 
     public void createNewQuestion(View view) {
@@ -82,6 +83,16 @@ public class CreateNewQuestion extends AppCompatActivity {
         }
     }
 
+    public void testGetAllQuestions(View view) {
+        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
+        List<QuestionModel> test = dbHelper.getAllQuestions(getApplicationContext());
+    }
+
+    public void testGetAllAnswers(View view) {
+        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
+        List<AnswerModel> test = dbHelper.getAllModels(getApplicationContext());
+    }
+
     private void LoadCategoriesSpinner(){
         StoreDbHelper db = new StoreDbHelper(getApplicationContext());
 
@@ -101,16 +112,6 @@ public class CreateNewQuestion extends AppCompatActivity {
         ArrayAdapter<String> dataAdater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, interestingFactTags);
 
         this.spinnerInterestingFact.setAdapter(dataAdater);
-    }
-
-    public void testGetAllQuestions(View view) {
-        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
-        List<QuestionModel> test = dbHelper.getAllQuestions(getApplicationContext());
-    }
-
-    public void testGetAllAnswers(View view) {
-        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
-        List<AnswerModel> test = dbHelper.getAllModels(getApplicationContext());
     }
 
     private void setTestMode(boolean isTestMode){

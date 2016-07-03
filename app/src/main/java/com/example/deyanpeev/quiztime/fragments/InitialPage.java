@@ -10,8 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.deyanpeev.quiztime.R;
+import com.example.deyanpeev.quiztime.data.StoreDbHelper;
+import com.example.deyanpeev.quiztime.helpers.Constants;
 
 public class InitialPage extends AppCompatActivity {
 
@@ -56,8 +59,14 @@ public class InitialPage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToStartNewGameActivity(View view) {
-        Intent goToStartNewGameActivity = new Intent(this, StartNewGameActivity.class);
+    public void goToChooseGameActivity(View view) {
+        StoreDbHelper db = new StoreDbHelper(getApplicationContext());
+        if(db.getAllQuestionsCount() <Constants.NUMBER_OF_QUESTIONS){
+            Toast.makeText(getApplicationContext(), "There are not enough questions.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        Intent goToStartNewGameActivity = new Intent(this, ChooseGame.class);
         startActivity(goToStartNewGameActivity );
     }
 

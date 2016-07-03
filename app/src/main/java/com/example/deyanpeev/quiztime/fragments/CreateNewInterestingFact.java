@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.data.StoreDbHelper;
+import com.example.deyanpeev.quiztime.helpers.Constants;
 import com.example.deyanpeev.quiztime.helpers.Seeder;
 import com.example.deyanpeev.quiztime.models.InterestingFactModel;
 
@@ -21,7 +22,7 @@ public class CreateNewInterestingFact extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_interesting_fact);
 
-        this.setTestMode(Seeder.IS_IN_TEST_MODE);
+        this.setTestMode(Constants.IS_IN_TEST_MODE);
     }
 
     public void createNewInteresingFact(View view) {

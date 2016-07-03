@@ -17,9 +17,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 
 public class Seeder {
-    //TODO create test mode for buttons
-    public static final boolean IS_IN_TEST_MODE = false;
-
     private Context context;
     private StoreDbHelper db;
     private Resources resources;
@@ -48,7 +45,6 @@ public class Seeder {
         }
     }
 
-    //TODO test
     public void seedAnswers() throws XmlPullParserException, IOException {
         XmlResourceParser xpp = resources.getXml(R.xml.answers);
         xpp.next();
@@ -136,7 +132,7 @@ public class Seeder {
             else if(eventType == XmlPullParser.START_TAG && xpp.getName().equals(resources.getString(R.string.xml_interesting_fact_tag))) {
                 eventType = xpp.next();
                 if (eventType == XmlPullParser.TEXT) {
-                    answer = xpp.getText();
+                    interestingFact = xpp.getText();
                 }
             }
             else if(eventType == XmlPullParser.END_TAG && xpp.getName().equals(resources.getString(R.string.xml_question_tag))){

@@ -28,6 +28,17 @@
         <item name="android:textColor">@color/colorBackground</item>
     </style>
 
+    <style name="btnOptionsStyles">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@color/colorButtons</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorBackground</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <!--<item name="android:layout_alignParentBottom">true</item>-->
+    </style>
+
     <style name="headerStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

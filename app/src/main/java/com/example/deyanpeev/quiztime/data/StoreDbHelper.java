@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+import com.example.deyanpeev.quiztime.helpers.Constants;
 import com.example.deyanpeev.quiztime.models.AnswerModel;
 import com.example.deyanpeev.quiztime.models.InterestingFactModel;
 import com.example.deyanpeev.quiztime.models.QuestionModel;
@@ -56,6 +57,19 @@ public class StoreDbHelper extends SQLiteOpenHelper {
 
     private final String SQL_SELECT_ALL_CATEGORIES = "SELECT " + ProductContract.CategoryEntity.COLUMN_TITLE
             + " FROM " + ProductContract.CategoryEntity.TABLE_NAME;
+
+    private final String SQL_SELECT_IS_THERE_CATEGORIES = "SELECT " + ProductContract.CategoryEntity._ID + " FROM "
+            + ProductContract.CategoryEntity.TABLE_NAME + " LIMIT 1";
+
+    private final String SQL_SELECT_ALL_PLAYABLE_CATEGORIES = "SELECT " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity.COLUMN_TITLE
+            + " FROM " + ProductContract.CategoryEntity.TABLE_NAME
+            + " LEFT OUTER JOIN " + ProductContract.QuestionEntity.TABLE_NAME
+            + " ON " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
+            + " = " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
+            + " GROUP BY " + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
+            + " HAVING COUNT(*) >= " + Constants.NUMBER_OF_QUESTIONS;
+
+    private static final String SQL_GET_ALL_QUESTIONS_COUNT = "SELECT COUNT(*) FROM " + ProductContract.QuestionEntity.TABLE_NAME;
 
     private final String SQL_SELECT_ALL_INTERESTING_FACTS_TAGS = "SELECT " + ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG
             + " FROM " + ProductContract.InterestingFactEntity.TABLE_NAME;
@@ -155,6 +169,16 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public int getAllQuestionsCount(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_GET_ALL_QUESTIONS_COUNT, null);
+
+        if(cursor.moveToFirst()){
+            return cursor.getInt(0);
+        }
+        return 0;
+    }
+
     public List<AnswerModel> getAllModels(Context context){
         List<AnswerModel> result = new ArrayList<>();
 
@@ -171,18 +195,12 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public List<String> getAllCategories(){
-        List<String> result = new ArrayList<String>();
+        return this.getCategories(SQL_SELECT_ALL_CATEGORIES);
+    }
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_CATEGORIES, null);
-
-        if(cursor.moveToFirst()){
-            do{
-                result.add(cursor.getString(0));
-            }while(cursor.moveToNext());
-        }
-
-        return result;
+    //Each category must have more than 10 questions to be played
+    public List<String> getAllPlayableCategories(){
+        return this.getCategories(SQL_SELECT_ALL_PLAYABLE_CATEGORIES);
     }
 
     public List<String> getAllInterestingFactTags(){
@@ -218,6 +236,16 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         } else {
             throw new SQLException("There is no such category.");
         }
+    }
+
+    public boolean isThereCategories(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_SELECT_IS_THERE_CATEGORIES, null);
+
+        if(cursor.moveToFirst()) {
+            return true;
+        }
+        return false;
     }
 
     public long getInterestingFactId(String interestingFactName) throws SQLException {
@@ -270,5 +298,20 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         }
 
         return -1;
+    }
+
+    private List<String> getCategories(String query){
+        List<String> result = new ArrayList<String>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                result.add(cursor.getString(0));
+            }while(cursor.moveToNext());
+        }
+
+        return result;
     }
 }

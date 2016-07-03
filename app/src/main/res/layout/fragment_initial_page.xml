@@ -21,7 +21,7 @@
         android:layout_marginTop="120dip"
         android:layout_below="@id/lblText"
         style="@style/btnStyles"
-        android:onClick="goToStartNewGameActivity"/>
+        android:onClick="goToChooseGameActivity"/>
 
     <Button
         android:id="@+id/btnCreateNewQuestion"

@@ -23,4 +23,7 @@
     <string name="xml_question_content">content</string>
     <string name="xml_interesting_fact_tag">interestingFact</string>
     <string name="xml_question_tag">question</string>
+    <string name="all_elements">All</string>
+    <string name="difficulty_level_bundle">difficultyLevelBundle</string>
+    <string name="category_bunde">categoryBundle</string>
 </resources>
