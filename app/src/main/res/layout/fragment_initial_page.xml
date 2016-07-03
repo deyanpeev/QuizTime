@@ -25,7 +25,7 @@
 
     <Button
         android:id="@+id/btnCreateNewQuestion"
-        android:text="Create new question"
+        android:text="Create new"
         android:layout_below="@id/btnStartNewGame"
         android:layout_marginTop="30dip"
         style="@style/btnStyles"

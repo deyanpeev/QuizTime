@@ -1,6 +1,7 @@
 package com.example.deyanpeev.quiztime.models;
 
 import android.content.Context;
+import android.database.SQLException;
 
 import com.example.deyanpeev.quiztime.data.StoreDbHelper;
 
@@ -53,6 +54,10 @@ public class QuestionModel {
 
         this.categoryId = db.getCategoryId(this.categoryName);
         this.answerId = db.getOrCreateAnswerId(this.answer, this.categoryId);
-        this.interestingFactId = db.getInterestingFactId(this.interestingFactTag);
+        try {
+            this.interestingFactId = db.getInterestingFactId(this.interestingFactTag);
+        }catch (SQLException e){
+            this.interestingFactId = null;
+        }
     }
 }

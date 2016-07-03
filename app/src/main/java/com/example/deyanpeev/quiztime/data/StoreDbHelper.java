@@ -13,10 +13,12 @@ import com.example.deyanpeev.quiztime.models.InterestingFactModel;
 import com.example.deyanpeev.quiztime.models.QuestionModel;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.List;
 
 public class StoreDbHelper extends SQLiteOpenHelper {
 
+    private static final int ANSWER_MAX_LENGTH = 70;
     private static final int DATABASE_VERSION = 4;
     static final String DATABASE_NAME = "store";
 
@@ -59,7 +61,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     private final String SQL_SELECT_ALL_INTERESTING_FACTS_TAGS = "SELECT " + ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG
             + " FROM " + ProductContract.InterestingFactEntity.TABLE_NAME;
 
-    private final String SQL_SELECT_ALL_QUESTIONS = "SELECT * FROM" + ProductContract.QuestionEntity.TABLE_NAME;
+    private final String SQL_SELECT_ALL_QUESTIONS = "SELECT * FROM " + ProductContract.QuestionEntity.TABLE_NAME;
 
     public StoreDbHelper(Context context) {
         super(context, DATABASE_NAME, null , DATABASE_VERSION);
@@ -95,7 +97,11 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Long insertNewAnswer(AnswerModel answer) throws SQLException{
+    public Long insertNewAnswer(AnswerModel answer) throws SQLException, StringIndexOutOfBoundsException{
+        if(answer.getContent().length() > ANSWER_MAX_LENGTH){
+            throw new StringIndexOutOfBoundsException("The answer must be less than " + ANSWER_MAX_LENGTH);
+        }
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -117,7 +123,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertNewQuestion(QuestionModel question){
-
         SQLiteDatabase dbWrite = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -199,7 +204,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public long getInterestingFactId(String interestingFactName){
+    public long getInterestingFactId(String interestingFactName) throws SQLException {
         long id = this.getEntityId(ProductContract.InterestingFactEntity.TABLE_NAME,
                 ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, interestingFactName);
 

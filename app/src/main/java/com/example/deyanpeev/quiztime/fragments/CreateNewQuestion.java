@@ -21,6 +21,8 @@ public class CreateNewQuestion extends AppCompatActivity {
     private Spinner spinnerCategory;
     private Spinner spinnerInterestingFact;
 
+    private static final String CANNOT_INSERT_QUESTION = "Fail to create a category.";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,14 +61,19 @@ public class CreateNewQuestion extends AppCompatActivity {
             interestingFactName = null;
         }
 
-        QuestionModel question = new QuestionModel(questionContent, categoryName, answer, interestingFactName, getApplicationContext());
+        QuestionModel question = null;
+        try {
+            question = new QuestionModel(questionContent, categoryName, answer, interestingFactName, getApplicationContext());
+        } catch(Exception e) {
+            Toast.makeText(getApplicationContext(), CANNOT_INSERT_QUESTION, Toast.LENGTH_LONG).show();
+        }
 
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());
 
         if(dbHelper.insertNewQuestion(question)) {
             Toast.makeText(getApplicationContext(), "The category was successfully created.", Toast.LENGTH_LONG).show();
         } else{
-            Toast.makeText(getApplicationContext(), "Fail to create a category.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), CANNOT_INSERT_QUESTION, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -89,5 +96,10 @@ public class CreateNewQuestion extends AppCompatActivity {
         ArrayAdapter<String> dataAdater = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, interestingFactTags);
 
         this.spinnerInterestingFact.setAdapter(dataAdater);
+    }
+
+    public void testGetAllQuestions(View view) {
+        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
+        List<QuestionModel> test = dbHelper.getAllQuestions(getApplicationContext());
     }
 }

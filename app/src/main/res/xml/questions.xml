@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<questoins>
+    <question>
+        <content>Who is the president of the USA?</content>
+        <category>Famous people</category>
+        <answer>Barack Obama</answer>
+        <interestingFact>Barack Obama drugs</interestingFact>
+    </question>
+    <question>
+        <content>Who is the most powerful man on the planet?</content>
+        <category>Famous people</category>
+        <answer>Barack Obama</answer>
+        <interestingFact>Barack Obama drugs</interestingFact>
+    </question>
+    <question>
+        <content>Who is the president of Russia?</content>
+        <category>Famous people</category>
+        <answer>Vladimir Putin</answer>
+        <interestingFact>Putin's background</interestingFact>
+    </question>
+    <question>
+        <content>Who is the inventor of Facebook?</content>
+        <category>Famous people</category>
+        <answer>Mark Zuckerberg</answer>
+    </question>
+    <question>
+        <content>Who became the youngest billionaire?</content>
+        <category>Famous people</category>
+        <answer>Mark Zuckerberg</answer>
+    </question>
+    <question>
+        <content>Who is the richest man on the planet?</content>
+        <category>Famous people</category>
+        <answer>Bill Gates</answer>
+        <interestingFact>Bill Gates arrested</interestingFact>
+    </question>
+    <question>
+        <content>Who is the founder of Microsoft?</content>
+        <category>Famous people</category>
+        <answer>Bill Gates</answer>
+        <interestingFact>Bill Gates arrested</interestingFact>
+    </question>
+    <question>
+        <content>Who is the first president of the USA?</content>
+        <category>Famous people</category>
+        <answer>George Washington</answer>
+    </question>
+    <question>
+        <content>Who led the attack that started a world war?</content>
+        <category>Famous people</category>
+        <answer>George Washington</answer>
+    </question>
+    <question>
+        <content>Who was the third president of the USA?</content>
+        <category>Famous people</category>
+        <answer>Thomas Jefferson</answer>
+    </question>
+    <question>
+        <content>What is the largest member of the felid (cat) family?</content>
+        <category>Animals</category>
+        <answer>Tiger</answer>
+        <interestingFact>Tigers swim</interestingFact>
+    </question>
+    <question>
+        <content>What is the tallest animal on the planet?</content>
+        <category>Animals</category>
+        <answer>Giraffe </answer>
+        <interestingFact>Giraffe's tongue</interestingFact>
+    </question>
+    <question>
+        <content>Who is considered to be the men's best friend?</content>
+        <category>Animals</category>
+        <answer>Dog </answer>
+    </question>
+    <question>
+        <content>Which is the capital of Russia?</content>
+        <category>Capitals</category>
+        <answer>Moscow</answer>
+        <interestingFact>Kremlin</interestingFact>
+    </question>
+    <question>
+        <content>Which is the biggest city in the world by land area?</content>
+        <category>Capitals</category>
+        <answer>Tokyo</answer>
+    </question>
+    <question>
+        <content>Which is the capital of England?</content>
+        <category>Capitals</category>
+        <answer>London</answer>
+        <interestingFact>Big Ben</interestingFact>
+    </question>
+</questoins>

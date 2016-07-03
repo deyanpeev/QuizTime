@@ -14,8 +14,13 @@
     <string name="seeded_categories">areCategoriesSeeded</string>
     <string name="seeded_answers">areAnswersSeeded</string>
     <string name="seeded_interesing_facts">areInterestingFactsSeeded</string>
-    <string name="seeded_questions">areInterestingFactsSeeded</string>
+    <string name="seeded_questions">areQuestionsSeeded</string>
     <string name="database_cleared">isDatabaseCleared</string>
     <string name="xml_category_name_tag">categoryName</string>
     <string name="xml_answer_tag">answer</string>
+    <string name="xml_short_tag">shortTag</string>
+    <string name="xml_description_tag">description</string>
+    <string name="xml_question_content">content</string>
+    <string name="xml_interesting_fact_tag">interestingFact</string>
+    <string name="xml_question_tag">question</string>
 </resources>

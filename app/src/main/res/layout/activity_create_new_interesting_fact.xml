@@ -15,18 +15,16 @@
         android:text="Create new interesting fact:"
         style="@style/headerStyle"
         android:layout_margin="20dp"/>
-        <TextView
-            android:id="@+id/tvQuestionText"
-            style="@style/textViewStyle"
-            android:text="Short tag:"/>
 
     <EditText
         android:layout_marginRight="10dip"
         android:id="@+id/teShortTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Shoty tag"
-        android:maxLength="16"/>
+        android:layout_below="@id/lblCreateNewFact"
+        android:layout_marginTop="20dp"
+        android:hint="Short tag"
+        android:maxLength="20"/>
 
     <EditText
         android:layout_below="@id/teShortTag"
