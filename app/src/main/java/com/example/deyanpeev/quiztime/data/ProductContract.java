@@ -24,7 +24,7 @@ public class ProductContract {
         public static final String COLUMN_TEXT = "Text";
     }
 
-    public static final class Answer implements BaseColumns {
+    public static final class AnswerEntity implements BaseColumns {
         public static final String TABLE_NAME = "Answers";
         public static final String COLUMN_CATEGORY_KEY = "Category_ID";
 

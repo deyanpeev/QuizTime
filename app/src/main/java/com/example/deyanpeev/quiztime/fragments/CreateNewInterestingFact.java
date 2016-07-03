@@ -3,11 +3,13 @@ package com.example.deyanpeev.quiztime.fragments;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.data.StoreDbHelper;
+import com.example.deyanpeev.quiztime.helpers.Seeder;
 import com.example.deyanpeev.quiztime.models.InterestingFactModel;
 
 import java.util.List;
@@ -18,6 +20,8 @@ public class CreateNewInterestingFact extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_interesting_fact);
+
+        this.setTestMode(Seeder.IS_IN_TEST_MODE);
     }
 
     public void createNewInteresingFact(View view) {
@@ -38,5 +42,15 @@ public class CreateNewInterestingFact extends AppCompatActivity {
     public void testMe(View view) {
         StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
         List<String> test = dbHelper.getAllInterestingFactTags();
+    }
+
+    private void setTestMode(boolean isTestMode){
+        Button btnTestQuestons = (Button) findViewById(R.id.btnTestInterestingFacts);
+
+        if(isTestMode){
+            btnTestQuestons.setVisibility(View.VISIBLE);
+        } else{
+            btnTestQuestons.setVisibility(View.INVISIBLE);
+        }
     }
 }

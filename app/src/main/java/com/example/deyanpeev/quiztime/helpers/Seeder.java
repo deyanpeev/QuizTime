@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class Seeder {
     //TODO create test mode for buttons
-    //public static final boolean
+    public static final boolean IS_IN_TEST_MODE = false;
 
     private Context context;
     private StoreDbHelper db;

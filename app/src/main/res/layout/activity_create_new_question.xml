@@ -87,6 +87,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnCreateNewQuestion"
         style="@style/btnStyles"
         android:layout_below="@+id/layoutInterestingFact"
         android:layout_marginTop="50dp"
@@ -94,11 +95,20 @@
         android:onClick="createNewQuestion" />
 
     <Button
+        android:id="@+id/btnTestQuestions"
         style="@style/btnStyles"
-        android:layout_below="@+id/layoutInterestingFact"
-        android:layout_marginTop="100dp"
-        android:text="test"
+        android:layout_below="@+id/btnCreateNewQuestion"
+        android:layout_marginTop="10dp"
+        android:text="test questions"
         android:onClick="testGetAllQuestions" />
+
+    <Button
+        android:id="@+id/btnTestAnswers"
+        style="@style/btnStyles"
+        android:layout_below="@+id/btnTestQuestions"
+        android:layout_marginTop="10dp"
+        android:text="test answers"
+        android:onClick="testGetAllAnswers" />
 
 </RelativeLayout>
 </ScrollView>

@@ -6,12 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.data.StoreDbHelper;
+import com.example.deyanpeev.quiztime.helpers.Seeder;
+import com.example.deyanpeev.quiztime.models.AnswerModel;
 import com.example.deyanpeev.quiztime.models.QuestionModel;
 
 import java.util.List;
@@ -33,6 +36,8 @@ public class CreateNewQuestion extends AppCompatActivity {
 
         this.LoadCategoriesSpinner();
         this.LoadInterestingFactSpinner();
+
+        this.setTestMode(Seeder.IS_IN_TEST_MODE);
     }
 
     public void createNewQuestion(View view) {
@@ -101,5 +106,23 @@ public class CreateNewQuestion extends AppCompatActivity {
     public void testGetAllQuestions(View view) {
         StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
         List<QuestionModel> test = dbHelper.getAllQuestions(getApplicationContext());
+    }
+
+    public void testGetAllAnswers(View view) {
+        StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
+        List<AnswerModel> test = dbHelper.getAllModels(getApplicationContext());
+    }
+
+    private void setTestMode(boolean isTestMode){
+        Button btnTestQuestons = (Button) findViewById(R.id.btnTestQuestions);
+        Button btnTestAnswers = (Button) findViewById(R.id.btnTestAnswers);
+
+        if(isTestMode){
+            btnTestQuestons.setVisibility(View.VISIBLE);
+            btnTestAnswers.setVisibility(View.VISIBLE);
+        } else{
+            btnTestQuestons.setVisibility(View.INVISIBLE);
+            btnTestAnswers.setVisibility(View.INVISIBLE);
+        }
     }
 }

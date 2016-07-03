@@ -38,6 +38,7 @@
         android:hint="Description"/>
 
     <Button
+        android:id="@id/btnCreateNewInterestingFact"
         style="@style/btnStyles"
         android:layout_below="@+id/teDescription"
         android:text="@string/create_new"
@@ -45,7 +46,9 @@
 
 
     <Button
+        android:id="@+id/btnTestInterestingFacts"
         style="@style/btnStyles"
+        android:layout_below="@id/btnCreateNewInterestingFact"
         android:text="Test"
         android:onClick="testMe"/>
 

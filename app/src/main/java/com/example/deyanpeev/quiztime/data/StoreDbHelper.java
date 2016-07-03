@@ -13,7 +13,6 @@ import com.example.deyanpeev.quiztime.models.InterestingFactModel;
 import com.example.deyanpeev.quiztime.models.QuestionModel;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
 import java.util.List;
 
 public class StoreDbHelper extends SQLiteOpenHelper {
@@ -43,16 +42,16 @@ public class StoreDbHelper extends SQLiteOpenHelper {
                     ProductContract.QuestionEntity.COLUMN_ANSWER_KEY + " TEXT NOT NULL," +
                     ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY + " TEXT, " +
                     "FOREIGN KEY (" + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY + ") REFERENCES " + ProductContract.CategoryEntity.TABLE_NAME + "(" + ProductContract.CategoryEntity._ID + ")," +
-                    "FOREIGN KEY (" + ProductContract.QuestionEntity.COLUMN_ANSWER_KEY + ") REFERENCES " + ProductContract.Answer.TABLE_NAME + "(" + ProductContract.Answer._ID + ")," +
+                    "FOREIGN KEY (" + ProductContract.QuestionEntity.COLUMN_ANSWER_KEY + ") REFERENCES " + ProductContract.AnswerEntity.TABLE_NAME + "(" + ProductContract.AnswerEntity._ID + ")," +
                     "FOREIGN KEY (" + ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY + ") REFERENCES " + ProductContract.InterestingFactEntity.TABLE_NAME + "(" + ProductContract.InterestingFactEntity._ID + ")" +
                     ");";
 
     private final String SQL_CREATE_ANSWER_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + ProductContract.Answer.TABLE_NAME + " (" +
-                    ProductContract.Answer._ID + " INTEGER PRIMARY KEY," +
-                    ProductContract.Answer.COLUMN_CATEGORY_KEY + " TEXT NOT NULL, " +
-                    ProductContract.Answer.COLUMN_CONTENT + " VARCHAR NOT NULL UNIQUE, " +
-                    "FOREIGN KEY (" + ProductContract.Answer.COLUMN_CATEGORY_KEY + ") REFERENCES " + ProductContract.CategoryEntity.TABLE_NAME + "(" + ProductContract.CategoryEntity._ID + ")" +
+            "CREATE TABLE IF NOT EXISTS " + ProductContract.AnswerEntity.TABLE_NAME + " (" +
+                    ProductContract.AnswerEntity._ID + " INTEGER PRIMARY KEY," +
+                    ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY + " TEXT NOT NULL, " +
+                    ProductContract.AnswerEntity.COLUMN_CONTENT + " VARCHAR NOT NULL UNIQUE, " +
+                    "FOREIGN KEY (" + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY + ") REFERENCES " + ProductContract.CategoryEntity.TABLE_NAME + "(" + ProductContract.CategoryEntity._ID + ")" +
                     ");";
 
     private final String SQL_SELECT_ALL_CATEGORIES = "SELECT " + ProductContract.CategoryEntity.COLUMN_TITLE
@@ -62,6 +61,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
             + " FROM " + ProductContract.InterestingFactEntity.TABLE_NAME;
 
     private final String SQL_SELECT_ALL_QUESTIONS = "SELECT * FROM " + ProductContract.QuestionEntity.TABLE_NAME;
+
+    private final String SQL_SELECT_ALL_ANSWERS = "SELECT * FROM " + ProductContract.AnswerEntity.TABLE_NAME;
 
     public StoreDbHelper(Context context) {
         super(context, DATABASE_NAME, null , DATABASE_VERSION);
@@ -105,10 +106,10 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(ProductContract.Answer.COLUMN_CONTENT, answer.getContent());
-        values.put(ProductContract.Answer.COLUMN_CATEGORY_KEY, answer.getCategoryId());
+        values.put(ProductContract.AnswerEntity.COLUMN_CONTENT, answer.getContent());
+        values.put(ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY, answer.getCategoryId());
 
-        return db.insert(ProductContract.Answer.TABLE_NAME, null, values);
+        return db.insert(ProductContract.AnswerEntity.TABLE_NAME, null, values);
     }
 
     public void insertNewInterestingFact(InterestingFactModel interestingFact){
@@ -148,6 +149,21 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 result.add(new QuestionModel(cursor.getString(1), cursor.getLong(2), cursor.getLong(3),cursor.getLong(4)));
+            }while(cursor.moveToNext());
+        }
+
+        return result;
+    }
+
+    public List<AnswerModel> getAllModels(Context context){
+        List<AnswerModel> result = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ANSWERS, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                result.add(new AnswerModel(cursor.getString(2), cursor.getLong(1)));//cursor.getString(1), cursor.getLong(2), cursor.getLong(3),cursor.getLong(4)));
             }while(cursor.moveToNext());
         }
 
@@ -216,8 +232,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public Long getOrCreateAnswerId(String answer, long categoryId){
-        long answerId = getEntityId(ProductContract.Answer.TABLE_NAME,
-                ProductContract.Answer.COLUMN_CONTENT, answer);
+        long answerId = getEntityId(ProductContract.AnswerEntity.TABLE_NAME,
+                ProductContract.AnswerEntity.COLUMN_CONTENT, answer);
 
         //doesn't exist - creating
         if(answerId < 0){
@@ -231,7 +247,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(ProductContract.QuestionEntity.TABLE_NAME, null, null);
         db.delete(ProductContract.InterestingFactEntity.TABLE_NAME, null, null);
-        db.delete(ProductContract.Answer.TABLE_NAME, null, null);
+        db.delete(ProductContract.AnswerEntity.TABLE_NAME, null, null);
         db.delete(ProductContract.CategoryEntity.TABLE_NAME, null, null);
     }
 
