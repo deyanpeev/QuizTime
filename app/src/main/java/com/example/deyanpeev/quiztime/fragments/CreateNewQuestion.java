@@ -85,7 +85,7 @@ public class CreateNewQuestion extends AppCompatActivity {
 
     public void testGetAllQuestions(View view) {
         StoreDbHelper dbHelper = new StoreDbHelper((getApplicationContext()));
-        List<QuestionModel> test = dbHelper.getAllQuestions(getApplicationContext());
+        List<QuestionModel> test = dbHelper.getAllQuestions();
     }
 
     public void testGetAllAnswers(View view) {

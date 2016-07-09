@@ -2,12 +2,15 @@ package com.example.deyanpeev.quiztime.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.widget.SimpleCursorAdapter;
 
+import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.helpers.Constants;
 import com.example.deyanpeev.quiztime.models.AnswerModel;
 import com.example.deyanpeev.quiztime.models.InterestingFactModel;
@@ -15,6 +18,7 @@ import com.example.deyanpeev.quiztime.models.QuestionModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class StoreDbHelper extends SQLiteOpenHelper {
 
@@ -154,21 +158,108 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return result > -1;
     }
 
-    public List<QuestionModel> getAllQuestions(Context context){
-        List<QuestionModel> result = new ArrayList<>();
+    public List<QuestionModel> getAllQuestions(){
+        return this.getQuestions(SQL_SELECT_ALL_QUESTIONS);
+    }
+
+    //TODO clean
+    public List<QuestionModel> getRandomPlayQuestions(String category, Resources resorces){
+        String query = "SELECT "
+                + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CONTENT + ", "
+                + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CONTENT + ", "
+                + ProductContract.InterestingFactEntity.TABLE_NAME + "." + ProductContract.InterestingFactEntity.COLUMN_TEXT + ", "
+                + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
+                + " FROM " + ProductContract.QuestionEntity.TABLE_NAME
+                + " LEFT JOIN " + ProductContract.CategoryEntity.TABLE_NAME
+                + " ON " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
+                + " = " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
+                + " LEFT JOIN " + ProductContract.InterestingFactEntity.TABLE_NAME
+                + " ON " + ProductContract.InterestingFactEntity.TABLE_NAME + "." + ProductContract.InterestingFactEntity._ID
+                + " = " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_INTERESTING_FACT_KEY
+                + " LEFT JOIN " + ProductContract.AnswerEntity.TABLE_NAME
+                + " ON " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity._ID
+                + " = " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_ANSWER_KEY;
+
+                //+ " WHERE Category.Title = 'Animals' "
+
+        if(!category.equals(resorces.getString(R.string.all_elements).toString())){
+            query = query + " WHERE " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity.COLUMN_TITLE
+                    + " = '" + category + "'";
+        } else {
+            query = query + " WHERE " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
+                    + " IN (SELECT " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+                    + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
+                    + " GROUP BY " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+                    + " HAVING COUNT(" + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+                    + ") >= " + Constants.NUMBER_OF_ANSWER_OPTIONS + ")";
+
+//            WHERE Question.CategoryId IN (SELECT CategoryId
+//            FROM Answer
+//            GROUP BY Answer.CategoryId
+//            HAVING COUNT(Answer.CategoryId) >= 4)
+        }
+
+        //getting the exact same number of question as
+        query = query + " ORDER BY RANDOM() LIMIT " + Constants.NUMBER_OF_QUESTIONS;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_QUESTIONS, null);
 
+//        String test2 = "SELECT " + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+//                + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
+//                + " GROUP BY " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+//                + " HAVING COUNT(" + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+//                + ") >= " + Constants.NUMBER_OF_ANSWER_OPTIONS;
+//        Cursor testC = db.rawQuery(test2, null);
+//        int j = -4;
+//        if(testC.moveToFirst()){
+//            j = testC.getInt(0);
+//        }
+
+        List<QuestionModel> result = new ArrayList<>();
+        Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()){
-            do{
-                result.add(new QuestionModel(cursor.getString(1), cursor.getLong(2), cursor.getLong(3),cursor.getLong(4)));
-            }while(cursor.moveToNext());
+            do {
+                String question = cursor.getString(0);
+                String answer = cursor.getString(1);
+                String interestingFact = cursor.getString(2);
+                int categoryId = cursor.getInt(3);
+
+                QuestionModel questionModel = new QuestionModel(question, answer, interestingFact, categoryId);
+
+                result.add(questionModel);
+            } while (cursor.moveToNext());
         }
 
         return result;
     }
 
+    public List<String> getRandomAnswersByCategoryId(long categoryId, String answerToExclude, int limit, Resources resources){
+        String query = "SELECT " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CONTENT
+                + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
+//                + " LEFT JOIN " + ProductContract.CategoryEntity.TABLE_NAME
+//                + " ON " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
+//                + " = " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+                + " WHERE " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+                + " = " + categoryId
+                + " AND " + ProductContract.AnswerEntity.TABLE_NAME + " != " + answerToExclude;
+
+        query = query + " ORDER BY RANDOM() LIMIT " + limit;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        List<String> result = new ArrayList<>();
+        if(cursor.moveToFirst()) {
+            do {
+                String answer = cursor.getString(0);
+                result.add(answer);
+            } while(cursor.moveToNext());
+        }
+
+        return result;
+    }
+
+    //TODO use
     public int getAllQuestionsCount(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(SQL_GET_ALL_QUESTIONS_COUNT, null);
@@ -219,23 +310,34 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public Boolean doesInterestingFactExist(InterestingFactModel interestingFact){
-        return this.getEntityId(ProductContract.InterestingFactEntity.TABLE_NAME,
+        return this.getEntityIdByString(ProductContract.InterestingFactEntity.TABLE_NAME,
                 ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, interestingFact.getShortTag()) >= 0;
     }
 
-    public int getCategoryId(String categoryName){
-        final String SQL_GET_CATEGORY_ID = "SELECT " + ProductContract.CategoryEntity._ID + " FROM "
-                + ProductContract.CategoryEntity.TABLE_NAME + " WHERE "
-                + ProductContract.CategoryEntity.COLUMN_TITLE + " = '" + categoryName + "' LIMIT 1";
+    public long getCategoryId(String categoryName){
+        long id = this.getEntityIdByString(ProductContract.InterestingFactEntity.TABLE_NAME,
+                ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, categoryName);
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_GET_CATEGORY_ID, null);
-
-        if(cursor.moveToFirst()){
-            return cursor.getInt(0);
+        if(id >= 0){
+            return id;
         } else {
-            throw new SQLException("There is no such category.");
+            throw new SQLException("No such interesting fact.");
         }
+    }
+
+    public String getCategoryTitleById(long id){
+        return this.getEntityStringById(ProductContract.CategoryEntity.TABLE_NAME,
+                ProductContract.CategoryEntity.COLUMN_TITLE, id);
+    }
+
+    public String getAnswerContentById(long id){
+        return this.getEntityStringById(ProductContract.AnswerEntity.TABLE_NAME,
+                ProductContract.AnswerEntity.COLUMN_CONTENT, id);
+    }
+
+    public String getInterestingFactTextById(long id){
+        return this.getEntityStringById(ProductContract.InterestingFactEntity.TABLE_NAME,
+                ProductContract.InterestingFactEntity.COLUMN_TEXT, id);
     }
 
     public boolean isThereCategories(){
@@ -249,7 +351,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public long getInterestingFactId(String interestingFactName) throws SQLException {
-        long id = this.getEntityId(ProductContract.InterestingFactEntity.TABLE_NAME,
+        long id = this.getEntityIdByString(ProductContract.InterestingFactEntity.TABLE_NAME,
                 ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, interestingFactName);
 
         if(id >= 0){
@@ -260,7 +362,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public Long getOrCreateAnswerId(String answer, long categoryId){
-        long answerId = getEntityId(ProductContract.AnswerEntity.TABLE_NAME,
+        long answerId = getEntityIdByString(ProductContract.AnswerEntity.TABLE_NAME,
                 ProductContract.AnswerEntity.COLUMN_CONTENT, answer);
 
         //doesn't exist - creating
@@ -280,13 +382,27 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     private Boolean doesCategoryExist(String categoryName){
-        long value = this.getEntityId(ProductContract.CategoryEntity.TABLE_NAME,
+        long value = this.getEntityIdByString(ProductContract.CategoryEntity.TABLE_NAME,
                 ProductContract.CategoryEntity.COLUMN_TITLE, categoryName);
 
         return value >= 0;
     }
 
-    private long getEntityId(String tableName, String columnName, String entityName){
+    private String getEntityStringById(String tableName, String returnType, long id){
+        final String SQL_GET_ENTITY = "SELECT " + returnType + " FROM " + tableName + " WHERE "
+                + BaseColumns._ID
+                + " = " + id + " LIMIT 1";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_GET_ENTITY, null);
+
+        if(cursor.moveToFirst()){
+            return cursor.getString(0);
+        }
+
+        throw new SQLException("Entity with sush id doesn't exist.");
+    }
+
+    private long getEntityIdByString(String tableName, String columnName, String entityName){
         final String SQL_GET_ENTITY = "SELECT " + BaseColumns._ID + " FROM " + tableName + " WHERE "
                 + columnName
                 + " = '" + entityName + "' LIMIT 1";
@@ -309,6 +425,21 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 result.add(cursor.getString(0));
+            }while(cursor.moveToNext());
+        }
+
+        return result;
+    }
+
+    private List<QuestionModel> getQuestions(String query){
+        List<QuestionModel> result = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                result.add(new QuestionModel(cursor.getString(1), cursor.getLong(2), cursor.getLong(3),cursor.getLong(4)));
             }while(cursor.moveToNext());
         }
 

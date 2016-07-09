@@ -39,6 +39,10 @@
         <activity
             android:name=".fragments.GamePlay"
             android:parentActivityName=".fragments.ChooseGame" />
+        <activity android:name=".fragments.SuccessfulGame"
+            android:parentActivityName=".fragments.ChooseGame" />
+        <activity android:name=".fragments.FailGame"
+            android:parentActivityName=".fragments.ChooseGame" />
     </application>
 
 </manifest>

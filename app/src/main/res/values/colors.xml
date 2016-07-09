@@ -7,5 +7,6 @@
     <color name="colorButtonsDisbled">#002b40</color>
     <color name="colorBackground">#dee0e6</color>
     <color name="colorFreeQuestions">#8e8e8e</color>
+    <color name="colorDifficultyLevel">#da900f</color>
     <color name="colorTextViews">#0b0250</color>
 </resources>

@@ -19,29 +19,54 @@
         android:text="0/0" />
 
     <TextView
-        android:id="@+id/questionText"
-        style="@style/headerStyle"
+        android:id="@+id/lblDifficultyLevel"
+        android:textColor="@color/colorDifficultyLevel"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lblFreeQuestions"
+        android:textStyle="bold"
+        android:text="Easy" />
+
+    <TextView
+        android:id="@+id/lblCategory"
+        android:textColor="@color/colorFreeQuestions"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="16dp"
+        android:layout_alignParentLeft="true"
+        android:textStyle="bold"
+        android:text="All" />
+
+    <TextView
+        android:id="@+id/tvQuestionText"
+        style="@style/questionsStyle"
         android:gravity="top"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="60dp"/>
 
     <Button
         android:id="@+id/firstButton"
         style="@style/btnOptionsStyles"
-        android:layout_above="@+id/secondButton"/>
+        android:layout_above="@+id/secondButton"
+        android:onClick="markAnswer" />
 
     <Button
         android:id="@+id/secondButton"
         style="@style/btnOptionsStyles"
-        android:layout_above="@+id/thirdButton" />
+        android:layout_above="@+id/thirdButton"
+        android:onClick="markAnswer" />
 
     <Button
         android:id="@+id/thirdButton"
         style="@style/btnOptionsStyles"
-        android:layout_above="@+id/fourtButton" />
+        android:layout_above="@+id/fourtButton"
+        android:onClick="markAnswer" />
 
     <Button
         android:id="@+id/fourtButton"
         style="@style/btnOptionsStyles"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:onClick="markAnswer" />
 
 </RelativeLayout>

@@ -44,11 +44,13 @@
         <content>Who is the first president of the USA?</content>
         <category>Famous people</category>
         <answer>George Washington</answer>
+        <interestingFact>George Washington battle</interestingFact>
     </question>
     <question>
         <content>Who led the attack that started a world war?</content>
         <category>Famous people</category>
         <answer>George Washington</answer>
+        <interestingFact>George Washington battle</interestingFact>
     </question>
     <question>
         <content>Who was the third president of the USA?</content>

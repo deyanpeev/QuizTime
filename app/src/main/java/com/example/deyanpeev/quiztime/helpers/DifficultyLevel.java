@@ -16,12 +16,12 @@ public class DifficultyLevel {
     }
 
     public static int getNumberOfFreeQuestions(String difficultyLevel){
-        switch (difficultyLevel.toLowerCase()){
-            case "easy":
+        switch (difficultyLevel.toUpperCase()){
+            case "EASY":
                 return 5;
-            case "medium":
+            case "MEDIUM":
                 return 2;
-            case "hard":
+            case "HARD":
                 return 0;
             default:
                 return 0;

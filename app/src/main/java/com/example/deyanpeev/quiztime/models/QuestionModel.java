@@ -16,13 +16,14 @@ public class QuestionModel {
     private Long interestingFactId;
 
     private String categoryName;
-    private String answer;
+    private String answerName;
     private String interestingFactTag;
+    private String interestingFactText;
 
     public QuestionModel(String questionName, String categoryName, String answer, String interestingFactTag, Context context){
         this.questionName = questionName;
         this.categoryName = categoryName;
-        this.answer = answer;
+        this.answerName = answer;
         this.interestingFactTag = interestingFactTag;
 
         this.transformIntoIds(context);
@@ -33,6 +34,13 @@ public class QuestionModel {
         this.categoryId = categoryId;
         this.answerId = answerId;
         this.interestingFactId = interestingFactId;
+    }
+
+    public QuestionModel(String questionName, String answerName, String interestingFactText, long categoryId){
+        this.questionName = questionName;
+        this.answerName = answerName;
+        this.interestingFactText = interestingFactText;
+        this.categoryId = categoryId;
     }
 
     public String getQuestionContent() {
@@ -49,11 +57,19 @@ public class QuestionModel {
 
     public long getAnserId() {return answerId; }
 
+    public String getAnswerName() {
+        return answerName;
+    }
+
+    public String getInterestingFactText() {
+        return interestingFactText;
+    }
+
     private void transformIntoIds(Context context){
         StoreDbHelper db = new StoreDbHelper(context);
 
         this.categoryId = db.getCategoryId(this.categoryName);
-        this.answerId = db.getOrCreateAnswerId(this.answer, this.categoryId);
+        this.answerId = db.getOrCreateAnswerId(this.answerName, this.categoryId);
         try {
             this.interestingFactId = db.getInterestingFactId(this.interestingFactTag);
         }catch (SQLException e){
