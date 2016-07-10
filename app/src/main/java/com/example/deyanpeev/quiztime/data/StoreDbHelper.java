@@ -180,8 +180,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
                 + " ON " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity._ID
                 + " = " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_ANSWER_KEY;
 
-                //+ " WHERE Category.Title = 'Animals' "
-
         if(!category.equals(resorces.getString(R.string.all_elements).toString())){
             query = query + " WHERE " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity.COLUMN_TITLE
                     + " = '" + category + "'";
@@ -192,11 +190,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
                     + " GROUP BY " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                     + " HAVING COUNT(" + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                     + ") >= " + Constants.NUMBER_OF_ANSWER_OPTIONS + ")";
-
-//            WHERE Question.CategoryId IN (SELECT CategoryId
-//            FROM Answer
-//            GROUP BY Answer.CategoryId
-//            HAVING COUNT(Answer.CategoryId) >= 4)
         }
 
         //getting the exact same number of question as
@@ -241,7 +234,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
 //                + " = " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                 + " WHERE " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                 + " = " + categoryId
-                + " AND " + ProductContract.AnswerEntity.TABLE_NAME + " != " + answerToExclude;
+                + " AND " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CONTENT
+                + " != '" + answerToExclude + "'";
 
         query = query + " ORDER BY RANDOM() LIMIT " + limit;
 
@@ -315,8 +309,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     }
 
     public long getCategoryId(String categoryName){
-        long id = this.getEntityIdByString(ProductContract.InterestingFactEntity.TABLE_NAME,
-                ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG, categoryName);
+        long id = this.getEntityIdByString(ProductContract.CategoryEntity.TABLE_NAME,
+                ProductContract.CategoryEntity.COLUMN_TITLE, categoryName);
 
         if(id >= 0){
             return id;

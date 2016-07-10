@@ -48,7 +48,7 @@ public class GamePlay extends AppCompatActivity {
         this.numberOfFreeQuestions = DifficultyLevel.getNumberOfFreeQuestions(this.difficultyLevel);
         this.numberOfFreeQuestionsLeft = this.numberOfFreeQuestions;
 
-        this.putNextQuestion(this.numberOfQuestionsSoFar);
+        this.putNextQuestion(this.questions.get(this.numberOfQuestionsSoFar));
     }
 
     public void markAnswer(View view) {
@@ -58,8 +58,26 @@ public class GamePlay extends AppCompatActivity {
 
         boolean isAnswerCorrect = selectedAnswer.equals(correctAnswer);
 
+        QuestionModel question = this.questions.get(this.numberOfQuestionsSoFar);
+
         if (isAnswerCorrect) {
             Toast.makeText(getApplicationContext(), "You selected the correct answer.", Toast.LENGTH_LONG).show();
+
+            String deleteMe = question.getInterestingFactText();
+            if(question.getInterestingFactText() != null && !question.getInterestingFactText().isEmpty()) {
+
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(GamePlay.this);
+                builder.setMessage(question.getInterestingFactText())
+                        .setTitle("Interesting fact").setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
         } else {
             if(--numberOfFreeQuestionsLeft <= 0){
                 Intent goToStartNewCategoryActivity = new Intent(this, FailGame.class);
@@ -74,11 +92,9 @@ public class GamePlay extends AppCompatActivity {
             startActivity(goToStartNewCategoryActivity );
         }
 
-        this.putNextQuestion(this.numberOfQuestionsSoFar);
-
-        //TODO show interesting fact in a dialog
-        //show interesting fact
-
+        //update the question
+        question = this.questions.get(this.numberOfQuestionsSoFar);
+        this.putNextQuestion(question);
     }
 
     private void getBundles() {
@@ -124,29 +140,10 @@ public class GamePlay extends AppCompatActivity {
         ((Button) findViewById(R.id.fourtButton)).setText(answers.get(3));
     }
 
-    private void putNextQuestion(int questionNumber){
-        QuestionModel question = this.questions.get(questionNumber);
+    private void putNextQuestion(QuestionModel question){
         ((TextView) findViewById(R.id.tvQuestionText)).setText(question.getQuestionContent());
         this.setupAnswerButtons(question);
         this.preSetUpFields();
-
-        if(question.getInterestingFactText() != null || !question.getInterestingFactText().isEmpty()) {
-
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
-                        case DialogInterface.BUTTON_POSITIVE:
-                            dialog.cancel();
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-            builder.setMessage(question.getInterestingFactText()).setPositiveButton("OK", dialogClickListener)
-                    .show();
-        }
     }
 }
 

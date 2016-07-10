@@ -16,20 +16,11 @@ import com.example.deyanpeev.quiztime.R;
 import com.example.deyanpeev.quiztime.helpers.PasswordValidator;
 
 public class SettingsDialog extends DialogFragment {
-//    Activity originalActivity;
-//
-//    public SettingsDialog(Activity activity){
-//        this.originalActivity = activity;
-//    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.activity_settings_dialog, null))
                 // Add action buttons
                 .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {

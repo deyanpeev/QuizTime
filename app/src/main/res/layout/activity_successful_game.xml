@@ -20,7 +20,7 @@
         android:id="@+id/btnSuccess"
         style="@style/btnStyles"
         android:onClick="goToChooseGameActivity"
-        android:gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:text="Go back"/>
 
