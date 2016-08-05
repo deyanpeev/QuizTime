@@ -65,6 +65,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     private final String SQL_SELECT_IS_THERE_CATEGORIES = "SELECT " + ProductContract.CategoryEntity._ID + " FROM "
             + ProductContract.CategoryEntity.TABLE_NAME + " LIMIT 1";
 
+    //TODO fix to get anly categories that has more than four answers
     private final String SQL_SELECT_ALL_PLAYABLE_CATEGORIES = "SELECT " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity.COLUMN_TITLE
             + " FROM " + ProductContract.CategoryEntity.TABLE_NAME
             + " LEFT OUTER JOIN " + ProductContract.QuestionEntity.TABLE_NAME
@@ -396,15 +397,17 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         throw new SQLException("Entity with sush id doesn't exist.");
     }
 
+    //TODO prevent sql injection - test
     private long getEntityIdByString(String tableName, String columnName, String entityName){
         final String SQL_GET_ENTITY = "SELECT " + BaseColumns._ID + " FROM " + tableName + " WHERE "
                 + columnName
-                + " = '" + entityName + "' LIMIT 1";
+                + " = ? COLLATE NOCASE LIMIT 1";
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_GET_ENTITY, null);
+        Cursor cursor = db.rawQuery(SQL_GET_ENTITY, new String[] {entityName});
 
         if(cursor.moveToFirst()){
-            return cursor.getLong(0);
+            Long id = cursor.getLong(0);
+            return id;
         }
 
         return -1;

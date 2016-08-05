@@ -77,7 +77,7 @@ public class CreateNewQuestion extends AppCompatActivity {
         StoreDbHelper dbHelper = new StoreDbHelper(getApplicationContext());
 
         if(dbHelper.insertNewQuestion(question)) {
-            Toast.makeText(getApplicationContext(), "The category was successfully created.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "The question was successfully created.", Toast.LENGTH_LONG).show();
         } else{
             Toast.makeText(getApplicationContext(), CANNOT_INSERT_QUESTION, Toast.LENGTH_LONG).show();
         }
