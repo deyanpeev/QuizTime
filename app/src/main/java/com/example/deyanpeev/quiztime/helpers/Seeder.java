@@ -45,7 +45,6 @@ public class Seeder {
         }
     }
 
-    //TODO test
     public void seedAnswers() throws XmlPullParserException, IOException {
         XmlResourceParser xpp = resources.getXml(R.xml.answers);
         xpp.next();
@@ -101,7 +100,6 @@ public class Seeder {
         }
     }
 
-    //TODO test
     public void seedQuestions() throws XmlPullParserException, IOException {
         XmlResourceParser xpp = resources.getXml(R.xml.questions);
         xpp.next();

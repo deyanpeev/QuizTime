@@ -72,7 +72,7 @@ public class QuestionModel {
         this.answerId = db.getOrCreateAnswerId(this.answerName, this.categoryId);
         try {
             this.interestingFactId = db.getInterestingFactId(this.interestingFactTag);
-        }catch (SQLException e){
+        } catch (Exception e){
             this.interestingFactId = null;
         }
     }

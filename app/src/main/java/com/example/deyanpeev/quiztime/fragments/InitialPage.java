@@ -61,7 +61,8 @@ public class InitialPage extends AppCompatActivity {
 
     public void goToChooseGameActivity(View view) {
         StoreDbHelper db = new StoreDbHelper(getApplicationContext());
-        if(db.getAllQuestionsCount() <Constants.NUMBER_OF_QUESTIONS){
+
+        if(!db.couldRunGame()){
             Toast.makeText(getApplicationContext(), "There are not enough questions.", Toast.LENGTH_LONG).show();
             return;
         }

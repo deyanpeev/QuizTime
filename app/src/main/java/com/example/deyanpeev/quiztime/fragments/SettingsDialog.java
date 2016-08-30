@@ -1,7 +1,6 @@
 package com.example.deyanpeev.quiztime.fragments;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -28,7 +27,7 @@ public class SettingsDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText etPassword = (EditText) ((AlertDialog) dialog).findViewById(R.id.etPassword);
                         String password = etPassword.getText().toString();
-                        if(PasswordValidator.IsPasswordCorrect(password)){
+                        if(PasswordValidator.isPasswordCorrect(password)){
                             Intent goToSettingsActivity = new Intent(getActivity(), SettingsActivity.class);
                             startActivity(goToSettingsActivity );
                         } else{

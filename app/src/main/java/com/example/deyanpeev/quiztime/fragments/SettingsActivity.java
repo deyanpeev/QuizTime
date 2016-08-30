@@ -66,6 +66,11 @@ public class SettingsActivity extends AppCompatActivity {
             return;
         }
 
+        if(!preferences.getBoolean(getResources().getString(R.string.seeded_categories), false)){
+            Toast.makeText(getApplicationContext(), "Categories must be seeded first", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         try {
             Seeder seeder = new Seeder(this.getApplicationContext());
             seeder.seedInterestingFacts();

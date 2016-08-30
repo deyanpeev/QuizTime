@@ -65,16 +65,21 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     private final String SQL_SELECT_IS_THERE_CATEGORIES = "SELECT " + ProductContract.CategoryEntity._ID + " FROM "
             + ProductContract.CategoryEntity.TABLE_NAME + " LIMIT 1";
 
-    //TODO fix to get anly categories that has more than four answers
     private final String SQL_SELECT_ALL_PLAYABLE_CATEGORIES = "SELECT " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity.COLUMN_TITLE
             + " FROM " + ProductContract.CategoryEntity.TABLE_NAME
             + " LEFT OUTER JOIN " + ProductContract.QuestionEntity.TABLE_NAME
             + " ON " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
             + " = " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
-            + " GROUP BY " + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
-            + " HAVING COUNT(*) >= " + Constants.NUMBER_OF_QUESTIONS;
 
-    private static final String SQL_GET_ALL_QUESTIONS_COUNT = "SELECT COUNT(*) FROM " + ProductContract.QuestionEntity.TABLE_NAME;
+            + " WHERE " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
+            + " IN("
+            + " SELECT " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+            + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
+            + " GROUP BY " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+            + " HAVING COUNT(" + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY + ") >= " + Constants.NUMBER_OF_ANSWER_OPTIONS
+            + ")"
+            + " GROUP BY " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY
+            + " HAVING COUNT("+ ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY + ") >= " + Constants.NUMBER_OF_QUESTIONS;
 
     private final String SQL_SELECT_ALL_INTERESTING_FACTS_TAGS = "SELECT " + ProductContract.InterestingFactEntity.COLUMN_SHORT_TAG
             + " FROM " + ProductContract.InterestingFactEntity.TABLE_NAME;
@@ -82,6 +87,19 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     private final String SQL_SELECT_ALL_QUESTIONS = "SELECT * FROM " + ProductContract.QuestionEntity.TABLE_NAME;
 
     private final String SQL_SELECT_ALL_ANSWERS = "SELECT * FROM " + ProductContract.AnswerEntity.TABLE_NAME;
+
+    private final String SQL_SELECT_NUMBER_OF_ALL_PLAYABLE_QUESTIONS =
+            "SELECT COUNT(" + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity._ID + ")"
+            + " FROM " + ProductContract.QuestionEntity.TABLE_NAME
+            + " WHERE " + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CATEGORY_KEY + " IN ("
+            + " SELECT " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+            + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
+            + " LEFT OUTER JOIN " + ProductContract.CategoryEntity.TABLE_NAME
+            + " ON " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
+            + " = " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+            + " GROUP BY " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
+            + " HAVING COUNT (" + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY + ") >= " + Constants.NUMBER_OF_ANSWER_OPTIONS
+            + ")";
 
     public StoreDbHelper(Context context) {
         super(context, DATABASE_NAME, null , DATABASE_VERSION);
@@ -163,7 +181,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return this.getQuestions(SQL_SELECT_ALL_QUESTIONS);
     }
 
-    //TODO clean
     public List<QuestionModel> getRandomPlayQuestions(String category, Resources resorces){
         String query = "SELECT "
                 + ProductContract.QuestionEntity.TABLE_NAME + "." + ProductContract.QuestionEntity.COLUMN_CONTENT + ", "
@@ -198,17 +215,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-//        String test2 = "SELECT " + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
-//                + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
-//                + " GROUP BY " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
-//                + " HAVING COUNT(" + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
-//                + ") >= " + Constants.NUMBER_OF_ANSWER_OPTIONS;
-//        Cursor testC = db.rawQuery(test2, null);
-//        int j = -4;
-//        if(testC.moveToFirst()){
-//            j = testC.getInt(0);
-//        }
-
         List<QuestionModel> result = new ArrayList<>();
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()){
@@ -230,9 +236,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
     public List<String> getRandomAnswersByCategoryId(long categoryId, String answerToExclude, int limit, Resources resources){
         String query = "SELECT " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CONTENT
                 + " FROM " + ProductContract.AnswerEntity.TABLE_NAME
-//                + " LEFT JOIN " + ProductContract.CategoryEntity.TABLE_NAME
-//                + " ON " + ProductContract.CategoryEntity.TABLE_NAME + "." + ProductContract.CategoryEntity._ID
-//                + " = " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                 + " WHERE " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                 + " = " + categoryId
                 + " AND " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CONTENT
@@ -254,15 +257,15 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    //TODO use
-    public int getAllQuestionsCount(){
+    public boolean couldRunGame(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_GET_ALL_QUESTIONS_COUNT, null);
+        Cursor cursor = db.rawQuery(SQL_SELECT_NUMBER_OF_ALL_PLAYABLE_QUESTIONS, null);
 
         if(cursor.moveToFirst()){
-            return cursor.getInt(0);
+            int numberOfQuestion = cursor.getInt(0);
+            return numberOfQuestion >= Constants.NUMBER_OF_QUESTIONS;
         }
-        return 0;
+        return false;
     }
 
     public List<AnswerModel> getAllModels(Context context){
@@ -397,7 +400,6 @@ public class StoreDbHelper extends SQLiteOpenHelper {
         throw new SQLException("Entity with sush id doesn't exist.");
     }
 
-    //TODO prevent sql injection - test
     private long getEntityIdByString(String tableName, String columnName, String entityName){
         final String SQL_GET_ENTITY = "SELECT " + BaseColumns._ID + " FROM " + tableName + " WHERE "
                 + columnName
