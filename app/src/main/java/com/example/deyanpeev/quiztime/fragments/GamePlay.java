@@ -63,10 +63,7 @@ public class GamePlay extends AppCompatActivity {
         if (isAnswerCorrect) {
             Toast.makeText(getApplicationContext(), "You selected the correct answer.", Toast.LENGTH_LONG).show();
 
-            String deleteMe = question.getInterestingFactText();
             if(question.getInterestingFactText() != null && !question.getInterestingFactText().isEmpty()) {
-
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(GamePlay.this);
                 builder.setMessage(question.getInterestingFactText())
@@ -82,6 +79,7 @@ public class GamePlay extends AppCompatActivity {
             if(--numberOfFreeQuestionsLeft <= 0){
                 Intent goToStartNewCategoryActivity = new Intent(this, FailGame.class);
                 startActivity(goToStartNewCategoryActivity );
+                return;
             } else {
                 Toast.makeText(getApplicationContext(), "You did not select the correct answer.", Toast.LENGTH_LONG).show();
             }
@@ -90,6 +88,7 @@ public class GamePlay extends AppCompatActivity {
         if(++this.numberOfQuestionsSoFar >= Constants.NUMBER_OF_QUESTIONS){
             Intent goToStartNewCategoryActivity = new Intent(this, SuccessfulGame.class);
             startActivity(goToStartNewCategoryActivity );
+            return;
         }
 
         //update the question
@@ -109,11 +108,12 @@ public class GamePlay extends AppCompatActivity {
 
     private void preSetUpFields() {
         this.setNumberOfFreeQuestions();
+        this.setNumberOfTotalQuestions();
 
         TextView tvCategory = (TextView) findViewById(R.id.lblCategory);
         tvCategory.setText(this.category);
 
-        TextView tvDifficultyLevel = (TextView) findViewById(R.id.lblCategory);
+        TextView tvDifficultyLevel = (TextView) findViewById(R.id.lblDifficultyLevel);
         tvDifficultyLevel.setText(this.difficultyLevel);
     }
 
@@ -121,6 +121,12 @@ public class GamePlay extends AppCompatActivity {
         String numberOfFreeQuestionsString = this.numberOfFreeQuestionsLeft + "/" + this.numberOfFreeQuestions;
         TextView tv = (TextView) findViewById(R.id.lblFreeQuestions);
         tv.setText(numberOfFreeQuestionsString);
+    }
+
+    private void setNumberOfTotalQuestions() {
+        String numberOfTotalQuestionString = this.numberOfQuestionsSoFar + 1 + "/" + Constants.NUMBER_OF_QUESTIONS;
+        TextView tv = (TextView) findViewById(R.id.lblTotalQuestions);
+        tv.setText(numberOfTotalQuestionString);
     }
 
     public String getCategory() {

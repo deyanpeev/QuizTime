@@ -12,9 +12,8 @@
 
     <TextView
         android:id="@+id/lblCreateNewQuestion"
-        android:text="Sorry! Looks like you didn't make it..."
-        style="@style/tvEndGameMessageStyle"
-        android:layout_marginTop="20dp" />
+        android:text="Congratulations"
+        style="@style/tvEndGameMessageStyleSuccess" />
 
     <Button
         android:id="@+id/btnSuccess"

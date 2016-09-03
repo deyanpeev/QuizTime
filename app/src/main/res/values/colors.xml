@@ -6,7 +6,10 @@
     <color name="colorButtons">#006699</color>
     <color name="colorButtonsDisbled">#002b40</color>
     <color name="colorBackground">#dee0e6</color>
-    <color name="colorFreeQuestions">#8e8e8e</color>
+    <color name="colorFreeQuestions">#bf5403</color>
     <color name="colorDifficultyLevel">#da900f</color>
+    <color name="colorTotalQuestions">#8e8e8e</color>
     <color name="colorTextViews">#0b0250</color>
+    <color name="failGameText">#c70303</color>
+    <color name="successGameText">#128e02</color>
 </resources>

@@ -10,13 +10,34 @@
     tools:context="com.example.deyanpeev.quiztime.fragments.GamePlay">
 
     <TextView
+        android:id="@+id/lblTotalQuestions"
+        android:textColor="@color/colorTotalQuestions"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="16dp"
+        android:layout_alignParentRight="true"
+        android:text="1/10" />
+
+    <TextView
         android:id="@+id/lblFreeQuestions"
         android:textColor="@color/colorFreeQuestions"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textSize="16dp"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/lblTotalQuestions"
+        android:textStyle="bold"
         android:text="0/0" />
+
+    <TextView
+        android:id="@+id/lblCategory"
+        android:textColor="@color/colorTotalQuestions"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="16dp"
+        android:layout_alignParentLeft="true"
+        android:textStyle="bold"
+        android:text="All" />
 
     <TextView
         android:id="@+id/lblDifficultyLevel"
@@ -24,20 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textSize="16dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/lblFreeQuestions"
-        android:textStyle="bold"
-        android:text="Easy" />
-
-    <TextView
-        android:id="@+id/lblCategory"
-        android:textColor="@color/colorFreeQuestions"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:textSize="16dp"
         android:layout_alignParentLeft="true"
-        android:textStyle="bold"
-        android:text="All" />
+        android:layout_below="@+id/lblCategory"
+        android:text="Easy" />
 
     <TextView
         android:id="@+id/tvQuestionText"

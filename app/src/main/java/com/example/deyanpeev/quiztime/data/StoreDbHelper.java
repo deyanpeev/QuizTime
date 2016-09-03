@@ -239,9 +239,8 @@ public class StoreDbHelper extends SQLiteOpenHelper {
                 + " WHERE " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CATEGORY_KEY
                 + " = " + categoryId
                 + " AND " + ProductContract.AnswerEntity.TABLE_NAME + "." + ProductContract.AnswerEntity.COLUMN_CONTENT
-                + " != '" + answerToExclude + "'";
-
-        query = query + " ORDER BY RANDOM() LIMIT " + limit;
+                + " != '" + answerToExclude + "'"
+                + " ORDER BY RANDOM() LIMIT " + limit;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -397,7 +396,7 @@ public class StoreDbHelper extends SQLiteOpenHelper {
             return cursor.getString(0);
         }
 
-        throw new SQLException("Entity with sush id doesn't exist.");
+        throw new SQLException("Entity with such id doesn't exist.");
     }
 
     private long getEntityIdByString(String tableName, String columnName, String entityName){
